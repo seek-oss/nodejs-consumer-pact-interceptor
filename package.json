@@ -1,0 +1,23 @@
+{
+  "name": "pact-interceptor",
+  "version": "0.0.0",
+  "description": "A means to intercept outgoing requests for the purpose of validating consumer pacts",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive",
+    "watch": "nodemon --exec \"npm test\""
+  },
+  "keywords": [
+    "pact"
+  ],
+  "author": "David Porter",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4",
+    "request": "^2.67.0"
+  },
+  "dependencies": {
+    "mitm": "^1.2.0"
+  }
+}
