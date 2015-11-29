@@ -3,24 +3,21 @@
 var request = require('request');
 var interceptor = require('../');
 var expect = require('chai').expect;
+var pact = require(__dirname + '/pact.json');
 
 describe('Pact Interceptor: ', function(){
 
-    var pact;
     var intercept;
 
     beforeEach(function(){
-        intercept = interceptor({
-            provider: "some provider", 
-            consumer: "some consumer"
-        });
+        intercept = interceptor(pact);
     });
-
+            
     afterEach(function(){
-        intercept.teardown();
+        intercept.teardown(); 
     });
 
-    describe('When receiving a request for which to create a pact', function(){
+    describe.only('When receiving a request for which to create a pact', function(){
 
         beforeEach(function(done){
             
@@ -43,10 +40,6 @@ describe('Pact Interceptor: ', function(){
             });
         });
 
-        afterEach(function(){
-            intercept.teardown();
-        });
-
         it('Should intercept the request', function(){
             expect(pact).to.eql({foo: "baz"});
         });
@@ -55,36 +48,26 @@ describe('Pact Interceptor: ', function(){
     describe('When receiving a request which is to be not intercepted', function(){
 
         var responseCode;
-
+        var responseError; 
+    
         beforeEach(function(done){
             
             intercept.start('http://some-other-url', function(err, pactData){
-                if(err) {
-                    done(err);
-                }
-                else {
-                    pact = pactData; 
-                }
+                responseError = err;
             });
 
             request.get('http://google.com', function(err, req, body){
-                if(err) {
-                    done(err);
-                }
-                else {
-                    responseCode = req.statusCode;
-                    done(); 
-                }
+                responseCode = req.statusCode;
+                done(); 
             });
         });
 
-        afterEach(function(){
-            intercept.teardown();
-        });
-
         it('Should not intercept the request', function(){
-            expect(pact).to.be.undefined;
-            expect(responseCode).to.equal(200);
+            expect(responseCode).to.eql(400);
+            expect(responseError).to.eql({
+                "error": "recevied a request which was not part of the assertion",
+                "url": "google.com/"
+            });
         });
     });
 });
