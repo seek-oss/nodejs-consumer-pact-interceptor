@@ -1,11 +1,15 @@
 {
-  "name": "pact-interceptor",
-  "version": "0.0.0",
+  "name": "node-consumer-pact-interceptor",
+  "version": "1.0.0",
   "description": "A means to intercept outgoing requests for the purpose of validating consumer pacts",
   "main": "index.js",
   "scripts": {
     "test": "mocha --recursive",
     "watch": "nodemon --exec \"npm test\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SEEK-Jobs/nodejs-consumer-pact-interceptor.git"
   },
   "keywords": [
     "pact"
@@ -18,6 +22,7 @@
   },
   "dependencies": {
     "lodash": "^3.10.1",
+    "node-consumer-pact-validation": "^1.0.0",
     "mitm": "^1.2.0",
     "request": "^2.67.0"
   }
