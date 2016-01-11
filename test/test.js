@@ -30,6 +30,57 @@ describe('Pact Interceptor: - simple GET request', function(){
             intercept.teardown();
         });
 
+        describe('When the request matches the specification and a regex', function(){
+
+            beforeEach(function(done){
+                intercept.start(/.*/, function(err, pactData){
+                    if(err) {
+                        done(err);
+                    }
+                    else {
+                        pact = pactData;
+                    }
+                });
+
+                var params = {
+                    method: pactSpec.interactions[0].request.method,
+                    url: "http://somedomain.com" + pactSpec.interactions[0].request.path,
+                    headers: pactSpec.interactions[0].request.headers,
+                    body: pactSpec.interactions[0].request.body,
+                    json: true
+                };
+
+                request(params, function(err, req, body){
+                    if(err) {
+                        done(err);
+                    }
+                    else {
+                        httpReq = req;
+                        httpBody = body;
+                        done();
+                    }
+                });
+            });
+
+            it('Should intercept the request and provide the specified statusCode', function(){
+                expect(httpReq.statusCode).to.eql(pactSpec.interactions[0].response.status);
+            });
+
+            for(var header in pactSpec.interactions[0].response.headers) {
+                it('Should provide appropriate response header: ' + header, function(){
+                    expect(httpReq.headers[header]).to.eql(pactSpec.interactions[0].response.headers[header]);
+                });
+            }
+
+            it('Should provide appropriate response body', function(){
+                expect(httpBody).to.eql(pactSpec.interactions[0].response.body);
+            });
+
+            it('Should intercept the request and return the pact object after verification', function(){
+                expect(pact).to.eql(pactSpec);
+            });
+
+        });
         describe('When the request matches the specification', function(){
 
             beforeEach(function(done){
