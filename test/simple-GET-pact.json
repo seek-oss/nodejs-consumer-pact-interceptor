@@ -11,7 +11,6 @@
             "provider_state": "The provider has an example resource available",
             "request": {
                 "method": "get",
-                "path": "/things/1234",
                 "headers": {
                     "authorization": "some Auth header"
                 }
@@ -31,6 +30,25 @@
                             "status": "new"
                         }
                     ]
+                }
+            }
+        },
+        {
+            "description": "A request for an example resource",
+            "provider_state": "The provider has an example resource available",
+            "request": {
+                "method": "get",
+                "headers": {
+                    "authorization": "some Auth header"
+                }
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "content-type": "application/json"
+                },
+                "body": {
+                  "abc": "abc"
                 }
             }
         }
