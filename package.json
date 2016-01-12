@@ -24,6 +24,7 @@
     "lodash": "^3.10.1",
     "node-consumer-pact-validation": "^1.0.0",
     "mitm": "^1.2.0",
-    "request": "^2.67.0"
+    "request": "^2.67.0",
+    "async": "^1.5.2"
   }
 }
