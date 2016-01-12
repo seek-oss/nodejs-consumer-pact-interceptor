@@ -24,7 +24,7 @@ module.exports = function(pact, url, setState, testSeriesCallback) {
     pact.interactions.forEach(function(interaction) {
 
       asyncArray.push(function(testCallback){
-        let interceptor = intercept(pact);
+        var interceptor = intercept(pact);
         interceptor.start(url, interaction, function(err) {
           if(err){ // There was a failure in pact assertion(s)
             interceptor.teardown();
