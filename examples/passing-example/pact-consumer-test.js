@@ -2,21 +2,14 @@
 
 var intercept = require('../..');
 var pact = require('./post-pact.json');
-var interceptor = intercept(pact);
 var client = require('./sample-consumer-client');
 var expect = require('chai').expect;
 
-describe('Pact consumer test', function(){
+describe('When the request matches the specification', function(){
+    before(function(){
+      var response;
 
-    var response;
-
-    before(function(done){
-
-        interceptor.start('http://somedomain/some-resource/1234', function(err, pactData){
-            if(err)
-                throw err;
-        });
-
+      var setState = function(err, interaction, cb){
         client(1234, { foo: "baz"}, function(err, res){
             if(err){
                 throw err;
@@ -26,10 +19,13 @@ describe('Pact consumer test', function(){
                 done();
             }
         });
-    });
+      };
 
-    after(function(){
-        interceptor.teardown();
+      intercept(pact, /.*/, setState, function(err, testResults){
+        if(err){
+          console.error(err); //Failure in setting up tests
+        }
+      });
     });
 
     it('should pass pact verification and return data as expected', function(){
