@@ -6,41 +6,170 @@
 
 var request = require('request');
 var expect = require('chai').expect;
-var intercept  = require('../index.js');
+var verify  = require('../index.js');
+var _ = require('lodash')
+var pact = require('./simple-GET-pact.json');
 
-var pactSpec = require('./simple-GET-pact.json');
-var httpReq;
-var httpBody;
+describe('When the provider receives a post request', function(){
+    var response;
+    var providerState = 'The provider receives a post request';
 
-describe('When the request matches the specification', function(){
-    before(function(){
+    before(function(done){
       var params = {
-          method: "get",
-          url: "http://somedomain.com",
-          headers: { authorization: "some Auth header" },
-          json: true
+          method: "post",
+          url: "http://somedomain.com/blah",
+          headers: { authorization: "some auth header for post" },
+          json: true,
+          body: {
+              "some post data": [
+                  {
+                      "id": "1234",
+                      "status": "new"
+                  }
+              ]
+          }
       };
 
-      var setState = function(err, interaction, cb){
-        request(params, function(err, req, body){
+      var setState = function(){
+        request(params, function(err, res){
             if(err) {
-                //done(err);
+              console.log(err);
             }
             else {
-                httpReq = req;
-                httpBody = body;
+                response = res;
             }
         });
       };
 
-      intercept(pactSpec, /.*/, setState, function(err, testResults){
+      verify(providerState, pact, /.*/, setState, function(err, testResults){
         if(err){
           console.error(err); //Failure in setting up tests
         }
+        done();
       });
     });
 
     it('Should intercept the request and provide the specified statusCode', function(){
-        expect(httpReq.statusCode).to.eql(pactSpec.interactions[0].response.status);
+      var interaction = _.find(pact.interactions, function(o) { return o.provider_state == providerState; });
+
+      expect(response.body).to.eql(interaction.response.body);
+      expect(response.statusCode).to.equal(interaction.response.status);
+    });
+});
+
+describe('When the provider receives a request for resource 1234', function(){
+    var response;
+    var providerState = 'The provider has resource 1234 available';
+
+    before(function(done){
+      var params = {
+          method: "get",
+          url: "http://somedomain.com/1234",
+          headers: { authorization: "header 1234" },
+          json: true
+      };
+
+      var setState = function(){
+        request(params, function(err, res){
+            if(err) {
+              console.log(err);
+            }
+            else {
+                response = res;
+            }
+        });
+      };
+
+      verify(providerState, pact, /.*/, setState, function(err, testResults){
+        if(err){
+          console.error(err); //Failure in setting up tests
+        }
+        done();
+      });
+    });
+
+    it('Should intercept the request and provide the specified statusCode', function(){
+      var interaction = _.find(pact.interactions, function(o) { return o.provider_state == providerState; });
+
+      expect(response.body).to.eql(interaction.response.body);
+      expect(response.statusCode).to.equal(interaction.response.status);
+    });
+});
+
+describe('When the provider receives a request for resource abcd', function(){
+    var response;
+    var providerState = 'The provider has resource abcd available';
+
+    before(function(done){
+      var params = {
+          method: "get",
+          url: "http://somedomain.com/abcd",
+          headers: { authorization: "header abcd" },
+          json: true
+      };
+
+      var setState = function(){
+        request(params, function(err, res){
+            if(err) {
+              console.log(err);
+            }
+            else {
+                response = res;
+            }
+        });
+      };
+
+      verify(providerState, pact, /.*/, setState, function(err, testResults){
+        if(err){
+          console.error(err); //Failure in setting up tests
+        }
+        done();
+      });
+    });
+
+    it('Should intercept the request and provide the specified statusCode', function(){
+      var interaction = _.find(pact.interactions, function(o) { return o.provider_state == providerState; });
+
+      expect(response.body).to.eql(interaction.response.body);
+      expect(response.statusCode).to.equal(interaction.response.status);
+    });
+});
+
+describe('When the provider returns a 404', function(){
+    var response;
+    var providerState = 'The provider returns 404';
+
+    before(function(done){
+      var params = {
+          method: "get",
+          url: "http://somedomain.com/snap",
+          headers: { authorization: "some auth header" },
+          json: true
+      };
+
+      var setState = function(){
+        request(params, function(err, res){
+            if(err) {
+              console.log(err);
+            }
+            else {
+                response = res;
+            }
+        });
+      };
+
+      verify(providerState, pact, /.*/, setState, function(err, testResults){
+        if(err){
+          console.error(err); //Failure in setting up tests
+        }
+        done();
+      });
+    });
+
+    it('Should intercept the request and provide the specified statusCode', function(){
+      var interaction = _.find(pact.interactions, function(o) { return o.provider_state == providerState; });
+
+      expect(response.body).to.eql(interaction.response.body);
+      expect(response.statusCode).to.equal(interaction.response.status);
     });
 });
