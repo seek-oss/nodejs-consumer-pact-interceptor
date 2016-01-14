@@ -8,11 +8,68 @@
     "interactions": [
         {
             "description": "A request for an example resource",
-            "provider_state": "The provider has an example resource available",
+            "provider_state": "The provider has resource 1234 available",
             "request": {
                 "method": "get",
                 "headers": {
-                    "authorization": "some Auth header"
+                    "authorization": "header 1234"
+                },
+                "path": "/1234"
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "content-type": "application/json"
+                },
+                "body": {
+                    "things": [
+                        {
+                            "id": "1234",
+                            "data": {
+                                "foo": "baz"
+                            },
+                            "status": "new"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "description": "A request for an example resource",
+            "provider_state": "The provider has resource abcd available",
+            "request": {
+                "method": "get",
+                "headers": {
+                    "authorization": "header abcd"
+                },
+                "path": "/abcd"
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "content-type": "application/json"
+                },
+                "body": {
+                  "abc": "abcd"
+                }
+            }
+        },
+        {
+            "description": "A request for post",
+            "provider_state": "The provider receives a post request",
+            "request": {
+                "method": "post",
+                "path": "/blah",
+                "headers": {
+                    "authorization": "some auth header for post"
+                },
+                "body": {
+                    "some post data": [
+                        {
+                            "id": "1234",
+                            "status": "new"
+                        }
+                    ]
                 }
             },
             "response": {
@@ -35,21 +92,16 @@
         },
         {
             "description": "A request for an example resource",
-            "provider_state": "The provider has an example resource available",
+            "provider_state": "The provider returns 404",
             "request": {
                 "method": "get",
                 "headers": {
-                    "authorization": "some Auth header"
-                }
+                    "authorization": "some auth header"
+                },
+                "path": "/snap"
             },
             "response": {
-                "status": 200,
-                "headers": {
-                    "content-type": "application/json"
-                },
-                "body": {
-                  "abc": "abc"
-                }
+                "status": 404
             }
         }
     ],

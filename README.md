@@ -6,7 +6,7 @@ should expect some bugs. Be sure to read the caveats below.
 
 ##### Quickstart
 
-See the `examples/passing-example` for the fastest way to get started.
+See the `test/test.js` for the fastest way to get started.
 
 ##### Workflow:
 
