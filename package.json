@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "lodash": "^3.10.1",
-    "node-consumer-pact-validation": "git+ssh://git@github.com:SEEK-Jobs/nodejs-consumer-pact-verifier#848710ad716a10f814f0d9a0c527a6e35b169af2",
+    "node-consumer-pact-validation": "https://github.com/SEEK-Jobs/nodejs-consumer-pact-verifier#848710ad716a10f814f0d9a0c527a6e35b169af2",
     "mitm": "^1.2.0",
     "request": "^2.67.0",
     "async": "^1.5.2"
