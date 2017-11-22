@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SEEK-Jobs/nodejs-consumer-pact-interceptor.git"
+    "url": "git+https://github.com/seek-oss/nodejs-consumer-pact-interceptor.git"
   },
   "keywords": [
     "pact"
@@ -21,10 +21,10 @@
     "mocha": "^2.3.4"
   },
   "dependencies": {
+    "async": "^1.5.2",
     "lodash": "^3.10.1",
-    "node-consumer-pact-validation": "https://github.com/SEEK-Jobs/nodejs-consumer-pact-verifier#848710ad716a10f814f0d9a0c527a6e35b169af2",
     "mitm": "^1.2.0",
-    "request": "^2.67.0",
-    "async": "^1.5.2"
+    "node-consumer-pact-validation": "seek-oss/nodejs-consumer-pact-verifier#b7685a3283a8b51bd55d3e35f8918480b486df8e",
+    "request": "^2.67.0"
   }
 }
